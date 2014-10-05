@@ -8,7 +8,6 @@
 ///   I plan to add camera movement and probably textures.
 ////////////////////////////////////////////////////////////////////////////////
 
-
 namespace octet {
   /// Scene containing a box with octet.
   class PanchitoCannon : public app {
@@ -28,6 +27,8 @@ namespace octet {
 	//Random stuff! 
 	random randomGenerator;
 
+  //Camera stuff!
+  mouse_ball camera;
 
 	void add_box(mat4t_in modelToWorld, vec3_in size, material *mat, bool is_dynamic = true) {
 
@@ -77,7 +78,7 @@ namespace octet {
 	    app_scene = new visual_scene();
 	    app_scene->create_default_camera_and_lights();
 	    app_scene->get_camera_instance(0)->get_node()->translate(vec3(0, 5, 0));
-
+      camera.init(this, 5, 100);
 	    mat4t modelToWorld;
 	    material *floor_mat = new material(vec4(0, 1, 0, 1));
 
@@ -117,6 +118,9 @@ namespace octet {
 		get_viewport_size(vx, vy);
 		app_scene->begin_render(vx, vy);
 
+    //Move the camera with the mouse
+    camera.update(app_scene->get_camera_instance(0)->get_node()->access_nodeToParent());
+
 		world->stepSimulation(1.0f / 30);
 		for (unsigned i = 0; i != rigid_bodies.size(); ++i) {
 			btRigidBody *rigid_body = rigid_bodies[i];
@@ -130,6 +134,7 @@ namespace octet {
 
 		// update matrices. assume 30 fps.
 		app_scene->update(1.0f / 30);
+
 
 		// draw the scene
 		app_scene->render((float)vx / vy);
