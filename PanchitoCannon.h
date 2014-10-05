@@ -1,9 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
-//
-// (C) Andy Thomason 2012-2014
-//
-// Modular Framework for OpenGLES2 rendering on multiple platforms.
-//
+///
+/// @file PanchitoCannon.h
+/// @author Juanmi Huertas Delgado
+/// @brief This class has the scene with the wall (for now)
+/// This class and project has to be developed. It is meant to be a small demo
+///   of something with physics and Panchito, made with OCTET Framework
+///   I plan to add camera movement and probably textures.
+////////////////////////////////////////////////////////////////////////////////
+
+
 namespace octet {
   /// Scene containing a box with octet.
   class PanchitoCannon : public app {
@@ -69,41 +74,41 @@ namespace octet {
 
     /// this is called once OpenGL is initialized
     void app_init() {
-	  app_scene = new visual_scene();
-	  app_scene->create_default_camera_and_lights();
-	  app_scene->get_camera_instance(0)->get_node()->translate(vec3(0, 5, 0));
+	    app_scene = new visual_scene();
+	    app_scene->create_default_camera_and_lights();
+	    app_scene->get_camera_instance(0)->get_node()->translate(vec3(0, 5, 0));
 
-	  mat4t modelToWorld;
-	  material *floor_mat = new material(vec4(0, 1, 0, 1));
+	    mat4t modelToWorld;
+	    material *floor_mat = new material(vec4(0, 1, 0, 1));
 
-	  // add the ground (as a static object)
-	  add_box(modelToWorld, vec3(200.0f, 0.5f, 200.0f), floor_mat, false);
+	    // add the ground (as a static object)
+	    add_box(modelToWorld, vec3(200.0f, 0.5f, 200.0f), floor_mat, false);
 
-	  // add the boxes (as dynamic objects)
+	    // add the boxes (as dynamic objects)
 
-	  // Various colors for the different bricks
-	  material *mat = new material(vec4(0, 1, 1, 1));
-	  material *mat2 = new material(vec4(.2, .8, .8, 1));
-	  material *mat3 = new material(vec4(.3, 1, .6, 1));
-	  modelToWorld.translate(-7, 1, 0);
-	  // piramyd of bricks
-	  int direction = 1, limit = 10;
-	  for (int j = 0; j != 10; ++j){
-		  for (int i = 0; i != limit; ++i){
-			  // to generate randomnly the color of each brick
-			  int valor = randomGenerator.get(0, 3);
-			  if (valor == 0)
-				  add_box(modelToWorld, vec3(0.5f), mat);
-			  else if (valor == 1)
-				  add_box(modelToWorld, vec3(0.5f), mat2);
-			  else if (valor == 2)
-				  add_box(modelToWorld, vec3(0.5f), mat3);
-			  modelToWorld.translate(1.5*direction, 0, 0);
-		  }
-		  modelToWorld.translate(-.5*direction, 1, 0);
-		  direction = -1 * direction;
-		  --limit;
-	  }
+	    // Various colors for the different bricks
+	    material *mat = new material(vec4(0, 1, 1, 1));
+	    material *mat2 = new material(vec4(.2, .8, .8, 1));
+	    material *mat3 = new material(vec4(.3, 1, .6, 1));
+	    modelToWorld.translate(-7, 1, 0);
+	    // piramyd of bricks
+	    int direction = 1, limit = 10;
+	    for (int j = 0; j != 10; ++j){
+		    for (int i = 0; i != limit; ++i){
+			    // to generate randomnly the color of each brick
+			    int valor = randomGenerator.get(0, 3);
+			    if (valor == 0)
+				    add_box(modelToWorld, vec3(0.5f), mat);
+			    else if (valor == 1)
+				    add_box(modelToWorld, vec3(0.5f), mat2);
+			    else if (valor == 2)
+				    add_box(modelToWorld, vec3(0.5f), mat3);
+			    modelToWorld.translate(1.5*direction, 0, 0);
+        }
+        modelToWorld.translate(-2.25*direction, 1, 0);
+        direction = -1 * direction;
+		    --limit;
+	    }
     }
 
     /// this is called to draw the world
